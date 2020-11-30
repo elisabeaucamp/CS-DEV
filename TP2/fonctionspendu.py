@@ -22,31 +22,30 @@ def fAfficherMot(pMot):
         else :
             motcache += '_' + " "
     return motcache
-
+def fDemanderLettreJoueur():
+    pLettre = input('Saisisser une lettre : ')
+    return pLettre
 def fRecupLettreJoueur(pLettre) :
-    lettre=pLettre.lower()
+    lettre= pLettre.lower()
     if len(lettre)>1 or not lettre.isalpha():
-        print('Saisissez une lettre valide')
+        print('Saisissez une lettre valide : ')
         return fRecupLettreJoueur(pLettre)
     else :
         return lettre
     
-def fChercherLettre(pLettre, pMot) :
+def fChercherLettre(pLettre, pMot, pMotEnCours) :
     lettre = fRecupLettreJoueur(pLettre)
-    symbole = '_'
     mot = pMot
-    motcache = fAfficherMot(pMot)
+    motcache = fAfficherMot(pMotEnCours)
     motcache = motcache.split(" ")[0:len(pMot)]
     for i in range(len(mot)) :
         if mot[i] == lettre :
             motcache[i] = lettre
     motcache = ' '.join(motcache)
-    if symbole not in motcache :
-        print('Victoire')
     return motcache
 
-def fGagné(pLettre, pMot) :
-    mot = fChercherLettre(pLettre, pMot)
+def fGagné(pLettre, pMot, pMotEnCours) :
+    mot = fChercherLettre(pLettre, pMot, pMotEnCours)
     symbole ='_'    
     if symbole not in mot :
         print('Victoire')
@@ -54,8 +53,12 @@ def fGagné(pLettre, pMot) :
     else :
         return False
 
-def fEssai(pLettre, pMot) :
+def fDedans (pLettre, pMot, pMotEnCours) :
     NbCoups = 8
-    if fGagné(pLettre, pMot) == False :
-        NbCoups -= 1
-    return NbCoups
+    if pLettre not in pMot :
+        print (pLettre,'? non.')
+        NbCoups -=1
+        return False
+    else :
+        print (fChercherLettre(pLettre,pMot, pMotEnCours))
+        return True
