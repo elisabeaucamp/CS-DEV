@@ -1,0 +1,1 @@
+fichier = open('mots.py','r')
