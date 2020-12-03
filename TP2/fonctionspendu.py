@@ -5,8 +5,10 @@ to do = fonctions du jeu'''
 import random
 
 def fRandomMot():
-    mots = open('mots.txt','r')
-    mot = random.choice(mots.readlines())
+    fichier = open('mots.txt','r')
+    mot = random.choice(fichier.readlines())
+    mot = mot.lower()
+    fichier.close()
     return mot
 
 def fRecupPremiereLettre(pMot):
@@ -22,43 +24,54 @@ def fAfficherMot(pMot):
         else :
             motcache += '_' + " "
     return motcache
+
 def fDemanderLettreJoueur():
-    pLettre = input('Saisisser une lettre : ')
+    pLettre = input('Saisissez une lettre : ')
     return pLettre
+
 def fRecupLettreJoueur(pLettre) :
     lettre= pLettre.lower()
     if len(lettre)>1 or not lettre.isalpha():
-        print('Saisissez une lettre valide : ')
-        return fRecupLettreJoueur(pLettre)
+        lettre = input('Saisissez une lettre valide : ')
     else :
-        return lettre
+        return str(lettre)
     
-def fChercherLettre(pLettre, pMot, pMotEnCours) :
-    lettre = fRecupLettreJoueur(pLettre)
+def fChercherLettre(pMot,pMotEnCours) :
+    pLettre = fDemanderLettreJoueur()
     mot = pMot
-    motcache = fAfficherMot(pMotEnCours)
-    motcache = motcache.split(" ")[0:len(pMot)]
+    motcache = pMotEnCours
+    motcache = motcache.split(" ")[0:len(pMot)-1]
     for i in range(len(mot)) :
-        if mot[i] == lettre :
-            motcache[i] = lettre
+        if mot[i] == pLettre :
+            motcache[i] = pLettre
     motcache = ' '.join(motcache)
-    return motcache
+    return motcache,pLettre
 
-def fGagné(pLettre, pMot, pMotEnCours) :
-    mot = fChercherLettre(pLettre, pMot, pMotEnCours)
+def fGagné(pMot) :
     symbole ='_'    
-    if symbole not in mot :
+    if symbole not in pMot :
         print('Victoire')
         return True
     else :
         return False
 
 def fDedans (pLettre, pMot, pMotEnCours) :
-    NbCoups = 8
     if pLettre not in pMot :
         print (pLettre,'? non.')
-        NbCoups -=1
         return False
     else :
-        print (fChercherLettre(pLettre,pMot, pMotEnCours))
+        print (fChercherLettre(pMot, pMotEnCours))
         return True
+
+def fScore(pScore, pMot) :
+    ListeLettreFaciles =['a','e','i','o','u','r','s','t','n','m','l','p','c']
+    score = int(pScore)
+    NbFacile = 0
+    NbDur = 0
+    for i in pMot :
+        if i in ListeLettreFaciles :
+            NbFacile += 1
+        else :
+            NbDur += 1
+    score = (NbFacile*2 + NbFacile*3)*score
+    return score

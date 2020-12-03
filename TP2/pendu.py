@@ -1,20 +1,27 @@
 '''auteur = elisa
-date = 30 novembre
-to do = tout '''
+date = 30 novembre 3 decembre
+to do = vérifs lettre valide '''
 
 import fonctionspendu
-
-NbCoups = 8 
 motchoisit = fonctionspendu.fRandomMot()
-motencours = motchoisit
-print(fonctionspendu.fAfficherMot(motchoisit))
-lettrejoueur = fonctionspendu.fDemanderLettreJoueur()
-fonctionspendu.fRecupLettreJoueur(lettrejoueur)
-while fonctionspendu.fDedans(lettrejoueur,motchoisit, motencours) == False :
-    lettrejoueur = fonctionspendu.fDemanderLettreJoueur()
-if fonctionspendu.fDedans(lettrejoueur, motchoisit, motencours) == True :
-    motencours = fonctionspendu.fChercherLettre(lettrejoueur, motchoisit, motencours)
-    while fonctionspendu.fGagné(lettrejoueur, motchoisit, motencours) == False :
-        lettrejoueur = fonctionspendu.fDemanderLettreJoueur()
-        fonctionspendu.fDedans(lettrejoueur,motchoisit, motencours)
+motencours = fonctionspendu.fAfficherMot(motchoisit)
+NbCoups = 8
+ListeLettre = ''
+while fonctionspendu.fGagné(motencours) == False and NbCoups >0 :
+    print(motencours)
+    print('Lettres testées : ', ListeLettre)
+    motencours, lettre = fonctionspendu.fChercherLettre(motchoisit,motencours)
+    lettre = fonctionspendu.fRecupLettreJoueur(lettre)
+    ListeLettre += lettre
+    if lettre not in motchoisit :
+        print('Non pas cette lettre')
+        NbCoups -= 1
+    print('Erreurs possibles : ', NbCoups)
+
+
+if NbCoups == 0 :
+    print ('Défaite')
+
+print('Le mot était : ', motchoisit)
+print('Score : ', fonctionspendu.fScore(NbCoups,motchoisit))
 
