@@ -1,6 +1,6 @@
 '''auteur = elisa
 date = 30 novembre
-to do = fonctions du jeu'''
+to do = meilleur score'''
 
 import random
 
@@ -32,9 +32,9 @@ def fDemanderLettreJoueur():
 def fRecupLettreJoueur(pLettre) :
     lettre= pLettre.lower()
     if len(lettre)>1 or not lettre.isalpha():
-        lettre = input('Saisissez une lettre valide : ')
+        return False
     else :
-        return str(lettre)
+        return True
     
 def fChercherLettre(pMot,pMotEnCours) :
     pLettre = fDemanderLettreJoueur()
@@ -75,3 +75,44 @@ def fScore(pScore, pMot) :
             NbDur += 1
     score = (NbFacile*2 + NbFacile*3)*score
     return score
+
+def fDejaTestée(pLettre,pListe) :
+    if pLettre in pListe :
+        return True
+    else :
+        return False
+
+def fJouer() :
+    motchoisit = fRandomMot()
+    motencours = fAfficherMot(motchoisit)
+    NbCoups = 8
+    ListeLettre = []
+    while fGagné(motencours) == False and NbCoups >0 :
+        print(motencours)
+        print('Lettres testées : ', ListeLettre)
+        motencours, lettre = fChercherLettre(motchoisit,motencours)
+        if fRecupLettreJoueur(lettre) == False :
+            print('--RENTREZ UNE LETTRE VALIDE--')
+        else :
+            if fDejaTestée(lettre,ListeLettre) == True :
+                    print('--DEJA TESTEE--')
+            else :
+                ListeLettre.append(lettre)
+                if lettre not in motchoisit :
+                    print('Non pas cette lettre')
+                    NbCoups -= 1
+        print('Erreurs possibles : ', NbCoups)
+        print('|')
+
+
+    if NbCoups == 0 :
+        print ('Défaite')
+
+    print('Le mot était : ', motchoisit)
+    print('Score : ', fScore(NbCoups,motchoisit))
+    rep = input('tapez y pour rejouer : ')
+    return fScore(NbCoups,motchoisit), rep
+
+def fOncontinue(pRep) :
+    if pRep == 'y' :
+        return True
