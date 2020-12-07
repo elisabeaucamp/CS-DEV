@@ -17,13 +17,13 @@ def fRecupPremiereLettre(pMot):
 
 def fAfficherMot(pMot):
     PremiereLettre = fRecupPremiereLettre(pMot)
-    motcache=''
+    MotCache=''
     for i in pMot :
         if i == PremiereLettre :
-            motcache += i + " "
+            MotCache += i + " "
         else :
-            motcache += '_' + " "
-    return motcache
+            MotCache += '_' + " "
+    return MotCache
 
 def fDemanderLettreJoueur():
     pLettre = input('Saisissez une lettre : ')
@@ -39,13 +39,13 @@ def fRecupLettreJoueur(pLettre) :
 def fChercherLettre(pMot,pMotEnCours) :
     pLettre = fDemanderLettreJoueur()
     mot = pMot
-    motcache = pMotEnCours
-    motcache = motcache.split(" ")[0:len(pMot)-1]
+    MotCache = pMotEnCours
+    MotCache = MotCache.split(" ")[0:len(pMot)-1]
     for i in range(len(mot)) :
         if mot[i] == pLettre :
-            motcache[i] = pLettre
-    motcache = ' '.join(motcache)
-    return motcache,pLettre
+            MotCache[i] = pLettre
+    MotCache = ' '.join(MotCache)
+    return MotCache,pLettre
 
 def fGagné(pMot) :
     symbole ='_'    
@@ -83,14 +83,14 @@ def fDejaTestée(pLettre,pListe) :
         return False
 
 def fJouer() :
-    motchoisit = fRandomMot()
-    motencours = fAfficherMot(motchoisit)
+    MotChoisit = fRandomMot()
+    MotEnCours = fAfficherMot(MotChoisit)
     NbCoups = 8
     ListeLettre = []
-    while fGagné(motencours) == False and NbCoups >0 :
-        print(motencours)
+    while fGagné(MotEnCours) == False and NbCoups >0 :
+        print(MotEnCours)
         print('Lettres testées : ', ListeLettre)
-        motencours, lettre = fChercherLettre(motchoisit,motencours)
+        MotEnCours, lettre = fChercherLettre(MotChoisit,MotEnCours)
         if fRecupLettreJoueur(lettre) == False :
             print('--RENTREZ UNE LETTRE VALIDE--')
         else :
@@ -98,7 +98,7 @@ def fJouer() :
                     print('--DEJA TESTEE--')
             else :
                 ListeLettre.append(lettre)
-                if lettre not in motchoisit :
+                if lettre not in MotChoisit :
                     print('Non pas cette lettre')
                     NbCoups -= 1
         print('Erreurs possibles : ', NbCoups)
@@ -108,11 +108,11 @@ def fJouer() :
     if NbCoups == 0 :
         print ('Défaite')
 
-    print('Le mot était : ', motchoisit)
-    print('Score : ', fScore(NbCoups,motchoisit))
+    print('Le mot était : ', MotChoisit)
+    print('Score : ', fScore(NbCoups,MotChoisit))
     rep = input('tapez y pour rejouer : ')
 
-    return fScore(NbCoups,motchoisit), rep
+    return fScore(NbCoups,MotChoisit), rep
 
 def fOncontinue(pRep) :
     print('je suis appelée')
