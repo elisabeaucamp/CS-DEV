@@ -1,6 +1,6 @@
 '''auteur = elisa
-date = 30 novembre
-to do = meilleur score'''
+date = 30 novembre 6 décembre
+to do = partie graphique'''
 
 import random
 
@@ -111,8 +111,10 @@ def fJouer() :
     print('Le mot était : ', motchoisit)
     print('Score : ', fScore(NbCoups,motchoisit))
     rep = input('tapez y pour rejouer : ')
+
     return fScore(NbCoups,motchoisit), rep
 
 def fOncontinue(pRep) :
+    print('je suis appelée')
     if pRep == 'y' :
-        return True
+        return fJouer()
