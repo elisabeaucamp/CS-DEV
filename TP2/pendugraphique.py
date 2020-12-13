@@ -21,34 +21,57 @@ def AfficherMot(pMot) :
     return MotCache
 
 def Soumettre(pMotChoisit, pMotEnCours) :
+    global nbrTentatives
+    nbrTentatives = 0
     for i in range(len(pMotChoisit)) :
         if pMotChoisit[i] == Reponse.get() :
-            pMotEnCours = pMotEnCours.split(' ')[:len(pMotChoisit)]
-            print(pMotEnCours)
+            pMotEnCours = pMotEnCours.split()[0:len(pMotChoisit)]
             pMotEnCours[i] = Reponse.get()
-            print(pMotEnCours)
             pMotEnCours = ' '.join(pMotEnCours)
-            print(pMotEnCours)
-    return pMotEnCours
+        else :
+            nbrTentatives += 1
+            nbrTentatives = Image(nbrTentatives)
+    return pMotEnCours, nbrTentatives
     
 def RemplacementAffichage(pMotChoisit, pMotEnCours) :
-    pMotEnCours = Soumettre(pMotChoisit,pMotEnCours)
+    global MotEnCours
+    MotEnCours, nbrTentatives = Soumettre(pMotChoisit,pMotEnCours)
+    print(MotEnCours)
+    return MotEnCours
+
+def Images(pNbrTentatives):
+    if pNbrTentatives == 1 :
+        image = 'Images/bonhomme2.gif'
+    elif pNbrTentatives == 2 :
+        image = 'Images/bonhomme3.gif'
+    elif pNbrTentatives == 3 :
+        image = 'Images/bonhomme4.gif'
+    elif pNbrTentatives == 4 :
+        image = 'Images/bonhomme5.gif'
+    elif pNbrTentatives == 5 :
+        image = 'Images/bonhomme6.gif'
+    elif pNbrTentatives == 6 :
+        image = 'Images/bonhomme7.gif'
+    elif pNbrTentatives == 7 :
+        image = 'Images/bonhomme8.gif'
+    return image
 
 '''Définition des mots'''
 MotChoisit = fonctionspendu.fRandomMot()
 MotEnCours = AfficherMot(MotChoisit)
-print(MotChoisit,MotEnCours)
+print(MotChoisit)
 
 '''création de la fenêtre'''
 MaFenetre = Tk()
 MaFenetre.title('Jeu du pendu')
 
 '''création d'un bouton commencer'''
-'''BoutonCommencer = Button(MaFenetre, text = 'Commencer', command = Commencer)
+'''BoutonCommencer = Button(MaFenetre, text = 'Commencer', command = lambda : AfficherMot(MotChoisit))
 BoutonCommencer.pack(side = 'right', padx = 5, pady = 5)'''
 
 '''création d'un bouton soumettre'''
 BoutonSoumettre = Button(MaFenetre, text = 'Soumettre', command = lambda : RemplacementAffichage(MotChoisit,MotEnCours))
+'''lambda : RemplacementAffichage(MotChoisit,MotEnCours)'''
 BoutonSoumettre.pack(side = 'right', padx = 5, pady = 5)
 
 '''Création d'une entry'''
@@ -58,20 +81,24 @@ Champ.focus_set()
 Champ.pack(side = 'right', padx = 5, pady = 5)
 
 '''Création de l'image'''
-photo = PhotoImage(file = 'bonhomme1.gif')
+'''MEC, nbrTentatives = Soumettre(MotChoisit,MotEnCours)
+image = StringVar()
+image.set(nbrTentatives)
+photo = PhotoImage(file = image)'''
 
 '''création d'un widget canvas pour l'image'''
-Canevas = Canvas(MaFenetre, height = 520, width = 680)
+'''Canevas = Canvas(MaFenetre, height = 520, width = 680)
 item = Canevas.create_image(0,0, anchor = 'nw', image = photo)
 print('Image du pendu(item',item,')')
-Canevas.pack()
+Canevas.pack()'''
 
 '''Création du label affichage'''
+MEC = RemplacementAffichage(MotChoisit,MotEnCours)
 Mot = StringVar()
-LabelMotEC = Label(MaFenetre, textvariable = Mot).pack(padx = 10, pady = 10)
-Mot.set(MotEnCours)
 
+LabelMotEC = Label(MaFenetre, textvariable = Mot).pack(padx = 10, pady = 10)
+Mot.set(MEC)
 '''Création du label NbDeCoups'''
-LabelNbCoups = Label(MaFenetre, text = str(8)).pack(padx = 10, pady = 10)
+LabelNbCoups = Label(MaFenetre, textvariable = str(8)).pack(padx = 10, pady = 10)
 
 MaFenetre.mainloop()
