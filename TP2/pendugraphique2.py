@@ -28,14 +28,14 @@ def Soumettre(pMotChoisit, pMotEnCours) :
             pMotEnCours = pMotEnCours.split()[0:len(pMotChoisit)]
             pMotEnCours[i] = Reponse.get()
             pMotEnCours = ' '.join(pMotEnCours)
-        else :
+        '''else :
             nbrTentatives += 1
-            nbrTentatives = Image(nbrTentatives)
-    return pMotEnCours, nbrTentatives
+            nbrTentatives = Image(nbrTentatives)'''
+    return pMotEnCours
     
 def RemplacementAffichage(pMotChoisit, pMotEnCours) :
     global MotEnCours
-    MotEnCours, nbrTentatives = Soumettre(pMotChoisit,pMotEnCours)
+    MotEnCours= Soumettre(pMotChoisit,pMotEnCours)
     print(MotEnCours)
     return MotEnCours
 
@@ -81,13 +81,13 @@ Champ.focus_set()
 Champ.pack(side = 'right', padx = 5, pady = 5)
 
 '''Création de l'image'''
-MEC, nbrTentatives = Soumettre(MotChoisit,MotEnCours)
+'''MEC, nbrTentatives = Soumettre(MotChoisit,MotEnCours)
 image = StringVar()
-image.set(nbrTentatives)
+image.set(nbrTentatives)'''
 '''ici j'ai une erreur que je ne connais pas et donc que je n'arrive pas à résoudre
 je voulais pourtant récupérer le bon fichier image en fonction du nombre de tentatives 
 faites mais python ne semble pas comprendre'''
-photo = PhotoImage(file = image)
+photo = PhotoImage(file = 'Images/bonhomme1.gif')
 
 '''création d'un widget canvas pour l'image'''
 Canevas = Canvas(MaFenetre, height = 520, width = 680)
